@@ -17,10 +17,12 @@ public class Vendor : BaseEntity
     public string Sector { get; set; }
     [Column("type", TypeName = "nvarchar(100)")]
     public string Type { get; set; }
-    [Column("is_approve")]
-    public bool IsApprove { get; set; }
+    [Column("is_admin_approve")]
+    public bool IsAdminApprove { get; set; }
+    [Column("is_manager_approve")]
+    public bool IsManagerApprove { get; set; }
 
     // Cardinality
-    public Account? Account { get; set; }
+    public AccountVendor? AccountVendor { get; set; }
     public ICollection<Project>? Projects { get; set; }
 }
