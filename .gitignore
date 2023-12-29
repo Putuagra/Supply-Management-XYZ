@@ -396,3 +396,11 @@ FodyWeavers.xsd
 
 # JetBrains Rider
 *.sln.iml
+
+# Bin and Obj
+Supply-Management-XYZ.Server/bin/*
+Supply-Management-XYZ.Server/obj/*
+Supply-Management-XYZ.Server/appsettings.json
+supply-management-xyz.client/appsettings.json
+supply-management-xyz.client/bin/*
+supply-management-xyz.client/obj/*
