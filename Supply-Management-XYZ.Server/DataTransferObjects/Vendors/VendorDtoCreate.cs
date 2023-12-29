@@ -10,7 +10,8 @@ public class VendorDtoCreate
     public string PhotoProfile { get; set; }
     public string Sector { get; set; }
     public string Type { get; set; }
-    public bool IsApprove { get; set; }
+    public bool IsAdminApprove { get; set; }
+    public bool IsManagerApprove { get; set; }
 
     public static implicit operator Vendor(VendorDtoCreate vendorDtoCreate)
     {
@@ -22,7 +23,8 @@ public class VendorDtoCreate
             PhotoProfile = vendorDtoCreate.PhotoProfile,
             Sector = vendorDtoCreate.Sector,
             Type = vendorDtoCreate.Type,
-            IsApprove = vendorDtoCreate.IsApprove,
+            IsAdminApprove = vendorDtoCreate.IsAdminApprove,
+            IsManagerApprove = vendorDtoCreate.IsManagerApprove,
         };
     }
 
@@ -36,7 +38,8 @@ public class VendorDtoCreate
             PhotoProfile = vendor.PhotoProfile,
             Sector = vendor.Sector,
             Type = vendor.Type,
-            IsApprove = vendor.IsApprove,
+            IsAdminApprove = vendor.IsAdminApprove,
+            IsManagerApprove = vendor.IsManagerApprove
         };
     }
 }
