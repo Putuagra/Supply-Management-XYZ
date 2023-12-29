@@ -149,4 +149,25 @@ public class AccountController : ControllerBase
             Message = "Account successfully deleted"
         });
     }
+
+    [HttpPost("registerEmployee")]
+    public IActionResult RegiterEmployee(AccountEmployeeDtoRegister accountEmployeeDtoRegister)
+    {
+        var isCreated = _accountService.RegisterEmployee(accountEmployeeDtoRegister);
+        if (!isCreated)
+            return StatusCode(StatusCodes.Status500InternalServerError, new ResponseHandler<AccountEmployeeDtoRegister>
+            {
+                Code = StatusCodes.Status500InternalServerError,
+                Status = HttpStatusCode.InternalServerError.ToString(),
+                Message = "Employee not registered",
+                Data = null
+            });
+        return Ok(new ResponseHandler<AccountEmployeeDtoRegister>
+        {
+            Code = StatusCodes.Status200OK,
+            Status = HttpStatusCode.OK.ToString(),
+            Message = "Employee registered",
+            Data = accountEmployeeDtoRegister
+        });
+    }
 }
