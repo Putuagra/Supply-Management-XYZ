@@ -21,6 +21,7 @@ builder.Services.AddDbContext<SupplyManagementDbContext>(options => options.UseM
 // Register repositories
 builder.Services.AddScoped<IAccountRepository, AccountRepository>();
 builder.Services.AddScoped<IAccountRoleRepository, AccountRoleRepository>();
+builder.Services.AddScoped<IAccountVendorRepository, AccountVendorRepository>();
 builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
 builder.Services.AddScoped<IProjectRepository, ProjectRepository>();
 builder.Services.AddScoped<IRoleRepository, RoleRepository>();
@@ -32,6 +33,7 @@ builder.Services.AddScoped<ITokenHandler, TokenHandler>();
 // Register services
 builder.Services.AddScoped<AccountService>();
 builder.Services.AddScoped<AccountRoleService>();
+builder.Services.AddScoped<AccountVendorService>();
 builder.Services.AddScoped<EmployeeService>();
 builder.Services.AddScoped<ProjectService>();
 builder.Services.AddScoped<RoleService>();
