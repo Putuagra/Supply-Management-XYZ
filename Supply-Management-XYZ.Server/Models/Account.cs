@@ -11,5 +11,4 @@ public class Account : BaseEntity
     // Cardinality
     public Employee? Employee { get; set; }
     public ICollection<AccountRole>? AccountRoles { get; set; }
-    public Vendor? Vendor { get; set; }
 }

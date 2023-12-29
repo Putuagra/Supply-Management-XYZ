@@ -25,6 +25,5 @@ public class AccountDtoCreate
             Guid = account.Guid,
             Password = account.Password,
         };
-
     }
 }
