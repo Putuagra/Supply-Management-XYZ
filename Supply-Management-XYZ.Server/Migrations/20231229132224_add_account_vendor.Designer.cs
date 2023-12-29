@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Supply_Management_XYZ.Server.Data;
 
@@ -10,9 +11,10 @@ using Supply_Management_XYZ.Server.Data;
 namespace Supply_Management_XYZ.Server.Migrations
 {
     [DbContext(typeof(SupplyManagementDbContext))]
-    partial class SupplyManagementDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231229132224_add_account_vendor")]
+    partial class add_account_vendor
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -215,13 +217,9 @@ namespace Supply_Management_XYZ.Server.Migrations
                         .HasColumnType("nvarchar(100)")
                         .HasColumnName("email");
 
-                    b.Property<bool>("IsAdminApprove")
+                    b.Property<bool>("IsApprove")
                         .HasColumnType("tinyint(1)")
-                        .HasColumnName("is_admin_approve");
-
-                    b.Property<bool>("IsManagerApprove")
-                        .HasColumnType("tinyint(1)")
-                        .HasColumnName("is_manager_approve");
+                        .HasColumnName("is_approve");
 
                     b.Property<DateTime>("ModifiedDate")
                         .HasColumnType("datetime(6)")

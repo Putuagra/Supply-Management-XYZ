@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Supply_Management_XYZ.Server.Data;
 
@@ -10,9 +11,10 @@ using Supply_Management_XYZ.Server.Data;
 namespace Supply_Management_XYZ.Server.Migrations
 {
     [DbContext(typeof(SupplyManagementDbContext))]
-    partial class SupplyManagementDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231229143209_add_is_admin_approve")]
+    partial class add_is_admin_approve
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

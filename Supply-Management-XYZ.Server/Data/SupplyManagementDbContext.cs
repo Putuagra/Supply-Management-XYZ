@@ -10,6 +10,7 @@ public class SupplyManagementDbContext : DbContext
     //Tables
     public DbSet<Account> Accounts { get; set; }
     public DbSet<AccountRole> AccountRoles { get; set; }
+    public DbSet<AccountVendor> AccountVendors { get; set; }
     public DbSet<Employee> Employees { get; set; }
     public DbSet<Project> Projects { get; set; }
     public DbSet<Role> Roles { get; set; }
@@ -45,11 +46,11 @@ public class SupplyManagementDbContext : DbContext
             .WithOne(employee => employee.Account)
             .HasForeignKey<Account>(account => account.Guid);
 
-        // Account - Vendor (One to One)
-        modelBuilder.Entity<Account>()
-            .HasOne(account => account.Vendor)
-            .WithOne(Vendor => Vendor.Account)
-            .HasForeignKey<Account>(account => account.Guid);
+        // Account Vendor - Vendor (One to One)
+        modelBuilder.Entity<AccountVendor>()
+            .HasOne(accountVendor => accountVendor.Vendor)
+            .WithOne(Vendor => Vendor.AccountVendor)
+            .HasForeignKey<AccountVendor>(accountVendor => accountVendor.Guid);
 
         // Role - AccountRole (One to Many)
         modelBuilder.Entity<Role>()
