@@ -1,6 +1,8 @@
 ﻿using Supply_Management_XYZ.Server.Contracts;
 using Supply_Management_XYZ.Server.Data;
 using Supply_Management_XYZ.Server.DataTransferObjects.Accounts;
+using Supply_Management_XYZ.Server.Models;
+using Supply_Management_XYZ.Server.Utilities.Handlers;
 
 namespace Supply_Management_XYZ.Server.Services;
 
@@ -8,11 +10,13 @@ public class AccountService
 {
     private readonly SupplyManagementDbContext _supplyManagementDbContext;
     private readonly IAccountRepository _accountRepository;
+    private readonly IEmployeeRepository _employeeRepository;
 
-    public AccountService(SupplyManagementDbContext supplyManagementDbContext, IAccountRepository accountRepository)
+    public AccountService(SupplyManagementDbContext supplyManagementDbContext, IAccountRepository accountRepository, IEmployeeRepository employeeRepository)
     {
         _supplyManagementDbContext = supplyManagementDbContext;
         _accountRepository = accountRepository;
+        _employeeRepository = employeeRepository;
     }
 
     public IEnumerable<AccountDtoGet> Get()
@@ -55,5 +59,37 @@ public class AccountService
         if (account is null) return -1;
         var accountDeleted = _accountRepository.Delete(account);
         return accountDeleted ? 1 : 0;
+    }
+
+    public bool RegisterEmployee(AccountEmployeeDtoRegister accountEmployeeDtoRegister)
+    {
+        using var transaction = _supplyManagementDbContext.Database.BeginTransaction();
+
+        try
+        {
+            var employee = new Employee
+            {
+                Guid = new Guid(),
+                FirstName = accountEmployeeDtoRegister.FirstName,
+                LastName = accountEmployeeDtoRegister.LastName,
+                Email = accountEmployeeDtoRegister.Email,
+            };
+            _employeeRepository.Create(employee);
+
+            var account = new Account
+            {
+                Guid = employee.Guid,
+                Password = HashingHandler.Hash(accountEmployeeDtoRegister.Password),
+            };
+            _accountRepository.Create(account);
+
+            transaction.Commit();
+            return true;
+        }
+        catch
+        {
+            transaction.Rollback();
+            return false;
+        }
     }
 }
