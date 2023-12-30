@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { create, getAll, getVendorByEmail, remove, update } from '../apis/VendorApi'
+import { GetVendorById, create, getAll, getVendorByEmail, remove, update } from '../apis/VendorApi'
 import { GetAuth, GetTokenClaim, RemoveAuth } from '../components/Auth'
 
 export default function VendorRepository() {
