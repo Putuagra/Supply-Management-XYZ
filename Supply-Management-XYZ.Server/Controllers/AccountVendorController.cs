@@ -170,4 +170,38 @@ public class AccountVendorController : ControllerBase
             Data = accountVendorDtoRegister
         });
     }
+
+    [HttpPost("login")]
+    public IActionResult Login(AccountVendorDtoLogin accountVendorDtoLogin)
+    {
+        var login = _accountVendorService.Login(accountVendorDtoLogin);
+        if (login == "0")
+            return NotFound(new ResponseHandler<AccountVendorDtoLogin>
+            {
+                Code = StatusCodes.Status404NotFound,
+                Status = HttpStatusCode.NotFound.ToString(),
+                Message = "Vendor not found"
+            });
+        if (login == "-1")
+            return BadRequest(new ResponseHandler<AccountVendorDtoLogin>
+            {
+                Code = StatusCodes.Status400BadRequest,
+                Status = HttpStatusCode.BadRequest.ToString(),
+                Message = "Password is incorrect"
+            });
+        if (login == "-2")
+            return StatusCode(StatusCodes.Status500InternalServerError, new ResponseHandler<AccountVendorDtoLogin>
+            {
+                Code = StatusCodes.Status500InternalServerError,
+                Status = HttpStatusCode.InternalServerError.ToString(),
+                Message = "Error retrieving when creating token"
+            });
+        return Ok(new ResponseHandler<string>
+        {
+            Code = StatusCodes.Status200OK,
+            Status = HttpStatusCode.OK.ToString(),
+            Message = "Login Success",
+            Data = login
+        });
+    }
 }
