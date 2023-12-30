@@ -1,10 +1,35 @@
+import { useNavigate } from 'react-router-dom'
 import Button from "../Button"
 
 export default function VendorList(props) {
+
+    const navigate = useNavigate()
     const { vendors, handleDelete } = props
 
     const handleUpdateClick = (guid) => {
-
+        const vendorToEdit = vendors.find((vendor) => vendor.guid === guid)
+        const prevVendorEmail = vendorToEdit.email
+        const prevVendorName = vendorToEdit.name
+        const prevVendorPhone = vendorToEdit.phoneNumber
+        const prevVendorSector = vendorToEdit.sector
+        const prevVendorType = vendorToEdit.type
+        const prevVendorPhoto = vendorToEdit.photoProfile
+        const prevVendorAdminApprove = vendorToEdit.isAdminApprove
+        const prevVendorManagerApprove = vendorToEdit.isManagerApprove
+        navigate("/update-vendor", {
+            state: {
+                guid,
+                prevVendorEmail: prevVendorEmail,
+                prevVendorEmail: prevVendorEmail,
+                prevVendorName: prevVendorName,
+                prevVendorPhone: prevVendorPhone,
+                prevVendorSector: prevVendorSector,
+                prevVendorType: prevVendorType,
+                prevVendorPhoto: prevVendorPhoto,
+                prevVendorAdminApprove: prevVendorAdminApprove,
+                prevVendorManagerApprove: prevVendorManagerApprove
+            }
+        })
     }
 
     return (
