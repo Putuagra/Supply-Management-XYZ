@@ -3,6 +3,7 @@ using Supply_Management_XYZ.Server.Data;
 using Supply_Management_XYZ.Server.DataTransferObjects.AccountVendors;
 using Supply_Management_XYZ.Server.Models;
 using Supply_Management_XYZ.Server.Utilities.Handlers;
+using System.Security.Claims;
 
 namespace Supply_Management_XYZ.Server.Services;
 
@@ -11,12 +12,14 @@ public class AccountVendorService
     private readonly SupplyManagementDbContext _supplyManagementDbContext;
     private readonly IAccountVendorRepository _accountVendorRepository;
     private readonly IVendorRepository _vendorRepository;
+    private readonly ITokenHandler _tokenHandler;
 
-    public AccountVendorService(IAccountVendorRepository accountVendorRepository, SupplyManagementDbContext supplyManagementDbContext, IVendorRepository vendorRepository)
+    public AccountVendorService(IAccountVendorRepository accountVendorRepository, SupplyManagementDbContext supplyManagementDbContext, IVendorRepository vendorRepository, ITokenHandler tokenHandler)
     {
         _accountVendorRepository = accountVendorRepository;
         _supplyManagementDbContext = supplyManagementDbContext;
         _vendorRepository = vendorRepository;
+        _tokenHandler = tokenHandler;
     }
 
     public IEnumerable<AccountVendorDtoGet> Get()
@@ -95,6 +98,33 @@ public class AccountVendorService
         {
             transaction.Rollback();
             return false;
+        }
+    }
+
+    public string Login(AccountVendorDtoLogin accountVendorDtoLogin)
+    {
+        var vendor = _vendorRepository.GetVendorByEmail(accountVendorDtoLogin.Email);
+        if (vendor is null) return "0";
+
+        var accountVendor = _accountVendorRepository.GetByGuid(vendor.Guid);
+        if (accountVendor is null) return "0";
+
+        if (!HashingHandler.Validate(accountVendorDtoLogin.Password, accountVendor!.Password)) return "-1";
+
+        try
+        {
+            var claims = new List<Claim>()
+            {
+                new Claim("Guid", vendor.Guid.ToString()),
+                new Claim("Name", $"{vendor.Name}"),
+                new Claim("PhotoProfile", vendor.PhotoProfile),
+            };
+            var token = _tokenHandler.GenerateToken(claims);
+            return token;
+        }
+        catch
+        {
+            return "-2";
         }
     }
 }
