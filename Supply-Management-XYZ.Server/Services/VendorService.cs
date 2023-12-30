@@ -31,6 +31,13 @@ public class VendorService
         return (VendorDtoGet)vendor;
     }
 
+    public VendorDtoGet? Get(string email)
+    {
+        var vendor = _vendorRepository.GetVendorByEmail(email);
+        if (vendor is null) return null;
+        return (VendorDtoGet)vendor;
+    }
+
     public VendorDtoCreate? Create(VendorDtoCreate vendorDtoCreate)
     {
         var vendorCreated = _vendorRepository.Create(vendorDtoCreate);
