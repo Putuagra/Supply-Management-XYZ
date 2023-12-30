@@ -9,4 +9,9 @@ public class EmployeeRepository : GeneralRepository<Employee>, IEmployeeReposito
     public EmployeeRepository(SupplyManagementDbContext context) : base(context)
     {
     }
+
+    public Employee? GetEmployeeByEmail(string email)
+    {
+        return Context.Set<Employee>().FirstOrDefault(e => e.Email == email);
+    }
 }
