@@ -9,4 +9,8 @@ public class AccountRoleRepository : GeneralRepository<AccountRole>, IAccountRol
     public AccountRoleRepository(SupplyManagementDbContext context) : base(context)
     {
     }
+    public IEnumerable<AccountRole> GetAccountRolesByAccountGuid(Guid guid)
+    {
+        return Context.Set<AccountRole>().Where(accountRole => accountRole.AccountGuid == guid);
+    }
 }
