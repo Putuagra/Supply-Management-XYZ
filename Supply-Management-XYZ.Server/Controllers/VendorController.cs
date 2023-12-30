@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Supply_Management_XYZ.Server.DataTransferObjects.Vendors;
 using Supply_Management_XYZ.Server.Services;
 using Supply_Management_XYZ.Server.Utilities.Handlers;
@@ -43,6 +44,30 @@ public class VendorController : ControllerBase
     public IActionResult Get(Guid guid)
     {
         var vendor = _vendorService.Get(guid);
+        if (vendor is null)
+        {
+            return NotFound(new ResponseHandler<VendorDtoGet>
+            {
+                Code = StatusCodes.Status404NotFound,
+                Status = HttpStatusCode.NotFound.ToString(),
+                Message = "Vendor not found"
+            });
+        }
+
+        return Ok(new ResponseHandler<VendorDtoGet>
+        {
+            Code = StatusCodes.Status200OK,
+            Status = HttpStatusCode.OK.ToString(),
+            Message = "Vendor found",
+            Data = vendor
+        });
+    }
+
+    [AllowAnonymous]
+    [HttpGet("ByEmail/{email}")]
+    public IActionResult Get(string email)
+    {
+        var vendor = _vendorService.Get(email);
         if (vendor is null)
         {
             return NotFound(new ResponseHandler<VendorDtoGet>
